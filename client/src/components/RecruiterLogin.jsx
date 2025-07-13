@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
 import { AppContext } from '../context/AppContext'
+import axios from 'axios'
 
 const RecruiterLogin = () => {
 
@@ -13,7 +14,7 @@ const RecruiterLogin = () => {
 
     const [isTextDataSubmitted, setIsTextDataSubmitted] = useState(false)
 
-    const {setShowRecruiterLogin} = useContext(AppContext)
+    const {setShowRecruiterLogin, backendUrl} = useContext(AppContext)
 
     const onsubmitHandler = async (e) => {
         e.preventDefault()
@@ -21,6 +22,19 @@ const RecruiterLogin = () => {
         if(state == 'Sign Up' && !isTextDataSubmitted) {
             setIsTextDataSubmitted(true)
         }
+
+        try {
+
+            if (state === 'Login') {
+
+                const {data} = await axios.post(backendUrl + '/api/company/login')
+
+            }
+            
+        } catch (error) {
+            
+        }
+
     }
 
     useEffect(() => {
