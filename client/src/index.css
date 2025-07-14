@@ -14,9 +14,9 @@
     display: none;
 }
 
-.rich-text {font-size: 15px; color: #7A7B7D;}
+.rich-text {font-size: 17px; color: #4b4b4b;}
 
-.rich-text p {margin-bottom: 16px;}
+.rich-text p {margin-bottom: 0px;}
 
 .rich-text h1 {
   font-size: 36px;
@@ -61,15 +61,15 @@
 .rich-text h6 {
   font-size: 12px;
   font-weight: 400;
-  color: #666666;
+  color: #4b4b4b;
   margin-top: 16px;
   margin-bottom: 8px;
 }
 
-.rich-text strong {font-weight: 700;}
+.rich-text strong {font-size: 2rem; font-weight: bold;}
 
 .rich-text ol {margin-left: 30px; list-style-type: decimal;}
 
 .rich-text ul {margin-left: 30px; list-style-type: disc;}
 
-.rich-text li {margin-bottom: 8px;}
+.rich-text li { margin-bottom: 8px;}  

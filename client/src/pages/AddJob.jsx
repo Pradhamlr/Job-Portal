@@ -1,7 +1,11 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react'
 import Quill from 'quill'
+import 'quill/dist/quill.snow.css';
 import { JobCategories, JobLocations } from '../assets/assets'
-import { useOptimistic } from 'react'
+import axios from 'axios'
+import { AppContext } from '../context/AppContext'
+import { toast } from 'react-toastify'
+import DOMPurify from 'dompurify'
 
 const AddJob = () => {     
 
@@ -14,6 +18,39 @@ const AddJob = () => {
     const editorRef = useRef(null)
     const quillRef = useRef(null)
 
+    const {backendUrl, companyToken} = useContext(AppContext) 
+
+    const onSubmitHandler = async (e) => {
+
+        e.preventDefault()
+
+        try {
+
+            const rawDescription = quillRef.current.root.innerHTML
+            const cleanedDescription = DOMPurify.sanitize(rawDescription, {
+                FORBID_ATTR: ['style'],  
+                })
+
+            const {data} = await axios.post(backendUrl+'/api/company/post-job',
+                {title, description: cleanedDescription, location, salary, category, level},
+                {headers: {token: companyToken}}
+            )
+
+            if (data.success) {
+                toast.success(data.message)
+                setTitle('')
+                setSalary(0)
+                quillRef.current.root.innerHTML = ''
+            } else {
+                toast.error(data.message)
+            }
+            
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+    }
+
     useEffect(() => {
         //Intiaite Quill
         if( !quillRef.current && editorRef.current) {
@@ -24,7 +61,7 @@ const AddJob = () => {
     },[])
 
   return (
-    <form className='container p-4 flex flex-col w-full items-start gap-3'>
+    <form onSubmit={onSubmitHandler} className='container p-4 flex flex-col w-full items-start gap-3'>
         <div className='w-full'>
             <p className='mb-2'>Job Title</p>
             <input className='w-full max-w-lg px-3 py-2 border-2 border-gray-300 rounded' required type="text" placeholder='Type Here' onChange={e => setTitle(e.target.value)} value={title}/>
@@ -71,7 +108,7 @@ const AddJob = () => {
         </div>
 
 
-        <button className='w-28 py-3 mt-4 bg-black text-center text-white rounded'>Add</button>
+        <button className='w-28 py-3 mt-4 bg-black text-center text-white rounded cursor-pointer'>Add</button>
     </form>
   )
 }
