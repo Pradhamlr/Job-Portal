@@ -7,7 +7,7 @@ import { v2 as cloudinary } from 'cloudinary'
 // Get User Data
 export const getUserData = async (req, res) => {
 
-    const userId = req.auth.userId
+    const userId = req.auth().userId
 
     try {
 
