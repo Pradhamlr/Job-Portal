@@ -18,13 +18,18 @@ export const clerkWebhooks = async (req, res) => {
          // Getting Data From Request Body
          const { data, type } = req.body
 
+         const firstName = data.first_name || ""
+         const lastName = data.last_name || ""
+         const fullName = lastName ? `${firstName} ${lastName}` : firstName
+       
+
          // Switch Cases 
          switch (type) {
              case 'user.created': {
                  const userData = {
                      _id: data.id,
                      email: data.email_addresses[0].email_address,
-                     name: data.first_name + " " + data.last_name,
+                     name: fullName,
                      image: data.image_url,
                      resume: ''
                  };
@@ -37,7 +42,7 @@ export const clerkWebhooks = async (req, res) => {
              case 'user.updated': {
                  const userData = {
                      email: data.email_addresses[0].email_address,
-                     name: data.first_name + " " + data.last_name,
+                     name: fullName,
                      image: data.image_url
                  };
 
