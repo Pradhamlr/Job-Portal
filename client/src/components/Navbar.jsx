@@ -19,10 +19,10 @@ const Navbar = () => {
             <img onClick={() => navigate('/')} className='cursor-pointer' src={assets.logo} alt="Logo" /> 
             {
                 user
-                ?<div className='flex items-center gap-3'>
+                ?<div className='flex items-center gap-3 font-medium'>
                     <Link to={'/applications'}>Applied Jobs</Link>
                     <p>|</p>
-                    <p className='max-sm:hidden'>Hi, {`${user.firstName}`}</p>
+                    <p className='max-sm:hidden '>Hi, {`${user.firstName}`}</p>
                     <UserButton />
                 </div>
                 :<div className='flex gap-6 max-sm:text-xs'>

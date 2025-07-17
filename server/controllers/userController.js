@@ -30,7 +30,7 @@ export const applyForJob = async (req, res) => {
 
     const { jobId } = req.body
 
-    const userId = req.auth.userId
+    const userId = req.auth().userId
     
     try {
 
@@ -66,7 +66,7 @@ export const getUserJobApplications = async (req, res) => {
 
     try {
 
-        const userId = req.auth.userId
+        const userId = req.auth().userId
 
         const applications = await JobApplication.find({userId})
         .populate('companyId', 'name email image')
@@ -86,11 +86,11 @@ export const getUserJobApplications = async (req, res) => {
 }
 
 // Update User Profile (RESUME)
-export const updateUserResume = async () => {
+export const updateUserResume = async (req, res) => {
 
     try {
 
-        const userId = req.auth.userId
+        const userId = req.auth().userId
 
         const resumeFile = req.file
 
@@ -103,7 +103,7 @@ export const updateUserResume = async () => {
 
         await userData.save()
 
-        return res.json({success: true, messsage: 'Resume Updated'})
+        return res.json({success: true, message: 'Resume Updated'})
         
     } catch (error) {
         res.json({success: false, message: error.message})
